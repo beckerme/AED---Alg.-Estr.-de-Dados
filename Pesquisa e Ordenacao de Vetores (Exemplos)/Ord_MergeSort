@@ -1,0 +1,59 @@
+package testes;
+
+public class MergeSort {
+	void ordenaMergeSort( int v[] ) {
+		// criar o vector auxiliar para o reagrupamento
+		int vAux[] = new int[ v.length ];
+		// dividir em dois e começar a recursão
+		// indicando onde começa e acaba o vector a ser ordenado
+		mergeSortRec( v, vAux, 0, v.length-1);
+	}
+	
+	void mergeSortRec( int v[], int vAux[], int esq, int dir ) {
+		if( esq >= dir ) // se só tem um elemento não faz nada
+			return;
+		// senão divide em duas partes e ordena essas partes
+		int centro = (esq + dir) / 2;
+		mergeSortRec( v, vAux, esq, centro ); // 1ª metade
+		mergeSortRec( v, vAux, centro+1, dir ); // 2ª metade 
+		// as partes já estão ordenadas, reagrupá-las
+		reagrupar( v, vAux, esq, centro+1, dir);
+	}
+	
+	void reagrupar( int v[], int vAux[], int i1, int i2, int fim2 ) {
+		// a primeira parte do vector vai de i1 a i2-1
+		int fim1 = i2-1;
+		// e a segunda de i2 a fim
+		// guardar o início pois vai ser preciso para a cópia final
+		int inicio = i1;
+		// o índice do vector auxiliar vai começar em i1
+		int iAux = i1;
+		// enquanto houver elementos nos dois vectores
+		// copiar o menor para vAux e incrementar o i respectivo
+		while( i1 <= fim1 && i2 <= fim2 ){
+			if( v[ i1 ] < v[ i2 ] ) {
+				vAux[iAux] = v[ i1 ];
+				i1++;
+			} 
+			else {
+				vAux[iAux] = v[ i2 ];
+				i2++;
+			}
+			iAux++; 
+		}
+		for( ; i1 <= fim1; i1++, iAux++ ) // o 2º vector acabou
+			vAux[ iAux ] = v[ i1 ];
+		for( ; i2 <= fim2; i2++, iAux++ ) // o 1º vector acabou
+			vAux[ iAux ] = v[ i2 ];
+		// copiar novamente para origem
+		for( int i = inicio; i <= fim2; i++ )
+			v[i] = vAux[i];
+	}
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
