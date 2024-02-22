@@ -1,0 +1,29 @@
+package testes;
+
+public class OrdenacaoInsercao {
+	static void ordenaInsercao(int []oVector) {
+		for( int i = 1; i < oVector.length; i++ ) {
+			int x = oVector[ i ]; // 4
+			int j = i; // 2
+			while( j > 0 && oVector[ j-1 ] > x ){ // 5
+				oVector[ j ] = oVector[ j-1 ]; // o numero da posicao 2 (4) vai deslocar-se para a posicao 1 (onde estava 5)
+				j--;
+			}
+			oVector[ j ] = x;
+		}
+	}
+	public static void main(String[] args) {
+		int vect[] = {3,5,4,2,1,8,9,12,10};
+		for(int k= 0; k < vect.length; k++) {
+			System.out.println("v[" + k + "] = " + vect[k] );
+		}
+		
+		System.out.println(" ");
+		ordenaInsercao(vect);
+		for(int k= 0; k < vect.length; k++) {
+			System.out.println("v[" + k + "] = " + vect[k] );
+		}
+
+	}
+
+}
