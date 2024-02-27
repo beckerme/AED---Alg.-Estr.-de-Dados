@@ -1,54 +1,170 @@
-package Exercicios;
+package Exerc;
+import java.util.Scanner;
 
-public class E3 {
-	
-	static int[] embaralharVetor(int vect[], int numTrocas) {
-		
-		for(int i = 0; i < numTrocas; i++) {
-			int indice_1 = (int) (Math.random()*vect.length);
-			int indice_2 = (int) (Math.random()*vect.length);
-			
-			int aux_indx_1 = vect[indice_1];
-			int aux_indx_2 = vect[indice_2];
-			
-			vect[indice_1] = aux_indx_2;
-			vect[indice_2] = aux_indx_1;
-			
-			System.out.println(aux_indx_1);
-			System.out.println(aux_indx_2);
-		}
-		imprimirVect(vect);
-		return vect;
-		
-	}
-	
-	static int[] criarVetorOrdenado(int numElementos) {
-		int vect[] = new int[numElementos];
-		for(int i = 0; i < numElementos; i++ ) {
-			vect[i] = i;
-		}
-		return vect;
-	}
-	
-	static int[] imprimirVect(int[] numElementos) {
+public class E_Teste {
 
-		for(int i = 0; i < numElementos.length; i++ ) {
-			if(i > 20) {
-				System.out.println("...");
-				break;
-			} else {
-				System.out.printf("[%d] = %d\n", i, numElementos[i]);
+		// TODO Auto-generated method stub
+		static int[] embaralharVetor(int vect[], int numTrocas) {
+			
+			for(int i = 0; i < numTrocas; i++) {
+				int indice_1 = (int) (Math.random()*vect.length);
+				int indice_2 = (int) (Math.random()*vect.length);
+				
+				int aux_indx_1 = vect[indice_1];
+				int aux_indx_2 = vect[indice_2];
+				
+				vect[indice_1] = aux_indx_2;
+				vect[indice_2] = aux_indx_1;
+				
+			}
+//			imprimirVect(vect);
+			return vect;
+			
+		}
+		
+		static int[] criarVetorOrdenado(int numElementos) {
+			int vect[] = new int[numElementos];
+			for(int i = 0; i < numElementos; i++ ) {
+				vect[i] = i;
+			}
+			return vect;
+		}
+		
+		static int[] imprimirVect(int[] numElementos) {
+
+			for(int i = 0; i < numElementos.length; i++ ) {
+				if(i > 20) {
+					System.out.println("...");
+					break;
+				} else {
+					System.out.printf("[%d] = %d\n", i, numElementos[i]);
+				}
+			}
+			return numElementos;
+		}
+		
+		static int somaTotal(int vect[]) {
+			int soma = 0;
+			for(int i = 0; i < vect.length; i++) {
+				soma += vect[i];
+			}
+			
+			return soma;
+			
+		}
+		
+		static int maiorIndice(int []vect) {
+			int maior = vect[0];
+			int indiceMaior = 0;
+			for(int i = 1; i < vect.length; i++) {
+				if(vect[i] > maior) {
+					maior = vect[i];
+					indiceMaior = i;
+				}
+			}
+			
+			return indiceMaior;
+		}
+		
+		static int menorIndice(int []vect) {
+			int menor = vect[0];
+			int indiceMenor = 0;
+			for(int i = 1; i < vect.length; i++) {
+				if(vect[i] < menor) {
+					menor = vect[i];
+					indiceMenor = i;
+				}
+			}
+			
+			return indiceMenor;
+		}
+		
+		static int procuraLinear(int []vect, int num) {
+			int posicao = 0;
+			for(int i = 0; i <vect.length; i++) {
+				if(vect[i] == num) {
+					return posicao = i;
+				}
+			}
+			
+			return -1;
+		}
+		
+		static int procuraBinaria(int []vect, int num) {
+			boolean encontrado = false;
+			int esq = 0;
+			int dir = vect.length-1;
+			int meio = 0;
+			for(int i = 0; i < vect.length; i++) {
+				if(esq <= dir && !encontrado) {
+					meio = (esq + dir)/2;
+					
+					if(vect[meio] == num) {
+						encontrado = true;
+					} else if(vect[meio] < num) {
+						esq = meio +1;
+					} else {
+						dir = meio -1;
+					}
+				}
+			}
+			if(!encontrado) {
+				return -1;
+			}
+			return meio;
+		}
+		
+		static int[] ordenacaoPorSelecao(int []vect){
+			for(int i = 0; i < vect.length-1; i++) {
+				int min = i;
+				for(int k = i + 1; k < vect.length; k++) {
+					if(vect[min] > vect[k]) {
+						min = k;
+					}
+					
+					int aux = vect[min];
+					vect[min] = vect[i];
+					vect[i] = aux;
+				}
 			}
 		}
-		return numElementos;
-	}
-	
-	public static void main(String[] args) {
-		int[] vetOrd = criarVetorOrdenado(10);
-//		imprimirVect(vetOrd);
-		int[] embaralharVe = embaralharVetor(vetOrd, 2);
-//		imprimirVect(embaralharVe);
 		
-	}
+		public static void main(String[] args) {
+//			int[] vetOrd = criarVetorOrdenado(10);
+//			imprimirVect(vetOrd);
+//			int[] embaralharVe = embaralharVetor(vetOrd, 5);
+//			imprimirVect(embaralharVe);
+//			int[] vetOrdSoma = criarVetorOrdenado(5);
+			
+//			int reSoma = somaTotal(vetOrdSoma);
+//			System.out.println(reSoma);
+//			imprimirVect(embaralharVe);
+//			System.out.println(menorIndice(embaralharVe));
+			
+			
+			
+			int[] vetOrdLinear = criarVetorOrdenado(20);
+			int [] embaralharVetLine = embaralharVetor(vetOrdLinear, 50);
+//			imprimirVect(embaralharVetLine);
+			Scanner input = new Scanner(System.in);
+//			System.out.println("Digite um numero para procurar: ");
+//			int numeroAProcurar = input.nextInt();
+//			System.out.println(procuraLinear(embaralharVetLine, numeroAProcurar));
+			
+			int []vetorOrdenadoBinario = criarVetorOrdenado(10);
+			imprimirVect(vetorOrdenadoBinario);
+			System.out.println("Digite um numero para procurar: ");
+			int numeroAProcurar = input.nextInt();
+			System.out.println(procuraBinaria(vetorOrdenadoBinario, numeroAProcurar));
+			
+			int []vectSelecao = criarVetorOrdenado(20);
+			int []embaralharVectSelecao = embaralharVetor(vectSelecao, 50);
+			imprimirVect(embaralharVectSelecao);
+			
+			
+		}
+
+		
+		
 
 }
