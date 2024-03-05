@@ -1,0 +1,161 @@
+package exer_2;
+
+public class E2 {
+	
+	static int[] criarVetorOrdenado(int numElementos) {
+		int vect[] = new int[numElementos];
+		for(int i = 0; i < numElementos; i++ ) {
+			vect[i] = i;
+		}
+		return vect;
+	}
+
+	static int[] embaralharVetor(int vect[], int numTrocas) {
+
+		for(int i = 0; i < numTrocas; i++) {
+			int indice_1 = (int) (Math.random()*vect.length);
+			int indice_2 = (int) (Math.random()*vect.length);
+
+			int aux_indx_1 = vect[indice_1];
+			int aux_indx_2 = vect[indice_2];
+
+			vect[indice_1] = aux_indx_2;
+			vect[indice_2] = aux_indx_1;
+
+		}
+		return vect;
+	}
+	
+	static int[] imprimirVect(int[] numElementos) {
+
+		for(int i = 0; i < numElementos.length; i++ ) {
+
+			System.out.printf("[%d] = %d\n", i, numElementos[i]);
+		}
+		return numElementos;
+	}
+	
+	static void reagrupar(int [] vect, int []vectorAuxiliar, int i1, int i2, int fim2) {
+		
+		//a primeira parte do vetor vai de i1 até i2
+		int fim1 = i2 - 1;
+		int inicio = i1;
+		int iAux = i1;
+		
+		while(i1 <= fim1 && i2 <= fim2) {
+			if(vect[i1] < vect[i2]) {
+				vectorAuxiliar[iAux] = vect[i1];
+				i1++;
+			} else {
+				vectorAuxiliar[iAux] = vect[i2];
+				i2++;
+			}
+			
+			iAux++;
+		}
+		
+		for(;i1 <= fim1; i1++, iAux++) {
+			vectorAuxiliar[iAux] = vect[i1];
+		}
+		
+		for(;i2 <= fim2; i2++, iAux++) {
+			vectorAuxiliar[iAux] = vect[i2];
+		}
+		
+		for(int i = inicio; i <= fim2; i++) {
+			vect[i] = vectorAuxiliar[i];
+		}
+	}
+	
+//	static void mergeSortRec(int [] vect, int []vectAuxiliar, int esquerda, int direita) {
+//		if(esquerda >= direita) 
+//			return;
+//		
+//		int centro = (esquerda + direita)/2;
+//		
+//		mergeSortRec(vect, vectAuxiliar, esquerda, direita); // 1ª metade do array que foi dividido
+//		mergeSortRec(vect, vectAuxiliar, centro+1, direita); // 2ª metade do array que foi dividido
+//		
+//		reagrupar(vect, vectAuxiliar, esquerda, centro+1, direita);
+//	}
+	
+	static void mergeSortRec(int [] vect, int []vectAuxiliar, int esquerda, int direita) {
+	    if(esquerda >= direita) 
+	        return;
+
+	    int centro = (esquerda + direita)/2;
+
+	    mergeSortRec(vect, vectAuxiliar, esquerda, centro); // Corrigido o intervalo para a primeira metade
+	    mergeSortRec(vect, vectAuxiliar, centro+1, direita);
+
+	    reagrupar(vect, vectAuxiliar, esquerda, centro+1, direita);
+	}
+
+	
+	static void ordenaMergeSort(int []vect) {
+		int vectAuxiliar[] = new int[vect.length];
+		mergeSortRec(vect, vectAuxiliar, 0, vect.length-1);
+	}
+	
+	//QUICK SORT
+	static void troca( int v[], int i, int j ) {
+		int aux = v[ i ];
+		v[ i ] = v[ j ];
+		v[ j ] = aux;
+		}
+	
+	static int pivotMediana( int v[], int ini, int fim ) {
+		int centro = (ini + fim ) /2;
+		if( v[ini] > v[centro] ) // já se ordenam os 3 elementos
+		troca( v, ini, centro );
+		if( v[ini] > v[fim] ) 
+		troca( v, ini, fim );
+		if( v[centro] > v[fim] ) 
+		troca( v, centro, fim );
+		// valor mediano fica na posição central
+		// para preparar o vector deve-se trocar com penúltimo
+		// (lembrar que o último é maior que o do centro)
+		troca( v, centro, fim-1);
+		return v[ fim - 1 ]; // retorna o pivot
+		}
+
+	
+	public static void main(String[] args) {
+        System.out.println("---------- Merge SORT ----------\n");
+		int numElementos = 201;
+        int[] vetorOrdenado = criarVetorOrdenado(numElementos);
+        System.out.println("Vetor Ordenado: \n");
+        imprimirVect(vetorOrdenado);
+        System.out.println("\n");
+
+        // Testando o embaralhamento do vetor
+        int numTrocas = 500;
+        int[] vetorEmbaralhado = embaralharVetor(vetorOrdenado.clone(), numTrocas);
+        System.out.println("\nVetor Embaralhado: \n");
+        imprimirVect(vetorEmbaralhado);
+
+        // Testando o merge sort
+        ordenaMergeSort(vetorEmbaralhado);
+        System.out.println("\nVetor Ordenado pelo Merge Sort: \n");
+        imprimirVect(vetorEmbaralhado);
+        System.out.println("\n");
+        
+        System.out.println("---------- QUICK SORT ----------\n");
+        int []vectOrdenado = criarVetorOrdenado(numElementos);
+        System.out.println("Vetor Ordenado: \n");
+        imprimirVect(vetorOrdenado);
+        System.out.println("\n");
+        
+        int []vEmb = embaralharVetor(vectOrdenado, numTrocas);
+        System.out.println("\nVetor Embaralhado: \n");
+        imprimirVect(vEmb);
+        
+        pivotMediana(vEmb, 0, vEmb.length-1);
+        System.out.println("\nVetor Ordenado pelo Quick Sort: \n");
+        imprimirVect(vetorEmbaralhado);
+        System.out.println("\n");
+        
+
+	}
+
+}
