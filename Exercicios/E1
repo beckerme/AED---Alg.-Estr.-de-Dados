@@ -15,7 +15,6 @@ public class E_Teste {
 			vect[indice_2] = aux_indx_1;
 			
 		}
-//		imprimirVect(vect);
 		return vect;
 		
 	}
@@ -112,7 +111,7 @@ public class E_Teste {
 		return meio;
 	}
 	
-	static void ordenacaoPorSelecao(int []vect){
+	static int[] ordenacaoPorSelecao(int []vect){
 		for(int i = 0; i < vect.length-1; i++) {
 			int min = i;
 			for(int k = i + 1; k < vect.length; k++) {
@@ -125,6 +124,7 @@ public class E_Teste {
 				vect[i] = aux;
 			}
 		}
+		return vect;
 	}
 	
 	static void ordenacaoPorInsercao(int []vect) {
@@ -170,21 +170,25 @@ public class E_Teste {
 //		System.out.println(menorIndice(embaralharVe));
 		
 		
-		
+		System.out.println("----------- EMBARALHAR VETOR -----------");
 		int[] vetOrdLinear = criarVetorOrdenado(20);
 		int [] embaralharVetLine = embaralharVetor(vetOrdLinear, 50);
-//		imprimirVect(embaralharVetLine);
+		imprimirVect(embaralharVetLine);
+		
+		System.out.println("----------- PROCURA LINEAR -----------");
 		Scanner input = new Scanner(System.in);
-//		System.out.println("Digite um numero para procurar: ");
-//		int numeroAProcurar = input.nextInt();
-//		System.out.println(procuraLinear(embaralharVetLine, numeroAProcurar));
+		System.out.println("Digite um numero para procurar: ");
+		int numeroAProcurar = input.nextInt();
+		System.out.println(procuraLinear(embaralharVetLine, numeroAProcurar));
 		
-//		int []vetorOrdenadoBinario = criarVetorOrdenado(10);
-//		imprimirVect(vetorOrdenadoBinario);
-//		System.out.println("Digite um numero para procurar: ");
-//		int numeroAProcurar = input.nextInt();
-//		System.out.println(procuraBinaria(vetorOrdenadoBinario, numeroAProcurar));
+		int []vetorOrdenadoBinario = criarVetorOrdenado(10);
+		System.out.println("----------- PROCURA BINARIO -----------");
+		imprimirVect(vetorOrdenadoBinario);
+		System.out.println("Digite um numero para procurar: ");
+		int numeroAProcurar1 = input.nextInt();
+		System.out.println(procuraBinaria(vetorOrdenadoBinario, numeroAProcurar1));
 		
+		System.out.println("----------- VETOR ORDENADO POR SELECAO -----------");
 		int []vectSelecao = criarVetorOrdenado(5);
 		int []embVect = embaralharVetor(vectSelecao, 50);
 		imprimirVect(embVect);
@@ -195,6 +199,7 @@ public class E_Teste {
 		
 		int []vectOrdenacao = criarVetorOrdenado(6);
 		int []embOrd = embaralharVetor(vectOrdenacao, 50);
+		System.out.println("----------- VETOR ORDENADO POR INSERCAO -----------");
 		imprimirVect(embOrd);
 		System.out.println("\n\n");
 		ordenacaoPorInsercao(vectOrdenacao);
@@ -202,6 +207,7 @@ public class E_Teste {
 		
 		int []vectPerm = criarVetorOrdenado(21);
 		int []embPerm = embaralharVetor(vectPerm, 50);
+		System.out.println("----------- VETOR ORDENADO POR PERMUTACAO -----------");
 		imprimirVect(embPerm);
 		System.out.println("\n\n");
 		ordenacaoPorPermutacao(embPerm);
