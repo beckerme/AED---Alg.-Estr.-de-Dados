@@ -1,0 +1,218 @@
+package e3;
+
+public class E3 {
+	
+	static int[] criarVetorOrdenado(int numElementos) {
+		int vect[] = new int[numElementos];
+		for(int i = 0; i < numElementos; i++ ) {
+			vect[i] = i;
+		}
+		return vect;
+	}
+
+	static int[] embaralharVetor(int vect[], int numTrocas) {
+			
+			for(int i = 0; i < numTrocas; i++) {
+				int indice_1 = (int) (Math.random()*vect.length);
+				int indice_2 = (int) (Math.random()*vect.length);
+				
+				int aux_indx_1 = vect[indice_1];
+				int aux_indx_2 = vect[indice_2];
+				
+				vect[indice_1] = aux_indx_2;
+				vect[indice_2] = aux_indx_1;
+				
+			}
+			return vect;
+			
+		}
+	
+	static int[] imprimirVect(int[] numElementos) {
+
+		for(int i = 0; i < numElementos.length; i++ ) {
+			if(i > 20) {
+				System.out.println("...");
+				break;
+			} else {
+				System.out.printf("[%d] = %d\n", i, numElementos[i]);
+			}
+		}
+		return numElementos;
+	}
+	
+	
+	static void ordenacaoPorInsercao(int []vect) {
+		for(int i = 1; i < vect.length; i++) {
+			int x = vect[i];
+			int j = i;
+			
+			while(j > 0 && vect[j-1] > x) {
+				vect[j] = vect[j-1];
+				j--; // por que???
+			}
+			
+			vect[j] = x;
+		}
+	}
+	
+	static void ordenacaoPorPermutacao(int []vect) {
+		boolean ordenado = false;
+		for(int i = 0; i <= vect.length-1 && !ordenado; i++) {
+			ordenado = true;
+			
+			for(int j = vect.length-1; j > i; j--) {
+				if(vect[j-1] > vect[j]) {
+					int aux = vect[j-1];
+					vect[j-1] = vect[j];
+					vect[j] = aux;
+					ordenado = false;
+				}
+			}
+		}
+	}
+	
+	static int[] ordenacaoPorSelecao(int []vect){
+		for(int i = 0; i < vect.length-1; i++) {
+			int min = i;
+			for(int k = i + 1; k < vect.length; k++) {
+				if(vect[min] > vect[k]) {
+					min = k;
+				}
+				
+				int aux = vect[min];
+				vect[min] = vect[i];
+				vect[i] = aux;
+			}
+		}
+		return vect;
+	}
+	
+	
+	static void reagrupar(int [] vect, int []vectorAuxiliar, int i1, int i2, int fim2) {
+			
+			//a primeira parte do vetor vai de i1 até i2
+			int fim1 = i2 - 1;
+			int inicio = i1;
+			int iAux = i1;
+			
+			while(i1 <= fim1 && i2 <= fim2) {
+				if(vect[i1] < vect[i2]) {
+					vectorAuxiliar[iAux] = vect[i1];
+					i1++;
+				} else {
+					vectorAuxiliar[iAux] = vect[i2];
+					i2++;
+				}
+				
+				iAux++;
+			}
+			
+			for(;i1 <= fim1; i1++, iAux++) {
+				vectorAuxiliar[iAux] = vect[i1];
+			}
+			
+			for(;i2 <= fim2; i2++, iAux++) {
+				vectorAuxiliar[iAux] = vect[i2];
+			}
+			
+			for(int i = inicio; i <= fim2; i++) {
+				vect[i] = vectorAuxiliar[i];
+			}
+		}
+	
+		
+	static void mergeSortRec(int [] vect, int []vectAuxiliar, int esquerda, int direita) {
+	    if(esquerda >= direita) 
+	        return;
+
+	    int centro = (esquerda + direita)/2;
+
+	    mergeSortRec(vect, vectAuxiliar, esquerda, centro); // Corrigido o intervalo para a primeira metade
+	    mergeSortRec(vect, vectAuxiliar, centro+1, direita);
+
+	    reagrupar(vect, vectAuxiliar, esquerda, centro+1, direita);
+	}
+
+	
+	static void ordenaMergeSort(int []vect) {
+		int vectAuxiliar[] = new int[vect.length];
+		mergeSortRec(vect, vectAuxiliar, 0, vect.length-1);
+	}
+	
+	//QUICK SORT
+	static void troca( int v[], int i, int j ) {
+		int aux = v[ i ];
+		v[ i ] = v[ j ];
+		v[ j ] = aux;
+		}
+	
+	static int pivotMediana( int v[], int ini, int fim ) {
+		int centro = (ini + fim ) /2;
+		if( v[ini] > v[centro] ) // já se ordenam os 3 elementos
+		troca( v, ini, centro );
+		if( v[ini] > v[fim] ) 
+		troca( v, ini, fim );
+		if( v[centro] > v[fim] ) 
+		troca( v, centro, fim );
+
+		troca( v, centro, fim-1);
+		return v[ fim - 1 ]; // retorna o pivot
+		}
+	
+	public static void quickSortRec(int vetor[], int ini, int fim)
+	{
+	if (ini >= fim)
+	return;
+	int pivot = pivotMediana(vetor, ini, fim);
+	int i = divideMaioresMenores(vetor, ini, fim, pivot);
+	quickSortRec(vetor, ini, i-1); // ordenar os menores
+	quickSortRec(vetor, i+1, fim); // ordenar os maiores
+	}
+	
+	public static int divideMaioresMenores(int vetor[], int ini, int fim, int pivot)
+	{
+	int i = ini,
+	j = fim-1;
+	while (i < j)
+	{
+	while (vetor[++i] < pivot);
+	while (j>0 && vetor[--j] > pivot);
+	if (i < j)
+	troca(vetor, i, j);
+	else
+	break;
+	}
+	troca(vetor, i, fim-1);
+	return i;
+	}
+	
+	public static void main(String[] args) {
+		
+		int numElementos = 100000;
+        int[] vetorOrdenado = criarVetorOrdenado(numElementos);
+        System.out.println("Vetor Ordenado: \n");
+        imprimirVect(vetorOrdenado);
+        
+        int[] vetorEmbaralhado = embaralharVetor(vetorOrdenado.clone(), 2*numElementos);
+        System.out.println("\nVetor Embaralhado: \n");
+        imprimirVect(vetorEmbaralhado);
+        
+        System.out.println("\n");
+        
+        long inicio,fim,tempo;
+        inicio=System.nanoTime();
+        
+//        ordenacaoPorSelecao(vetorEmbaralhado);
+//		ordenacaoPorPermutacao(vetorEmbaralhado);
+//		ordenacaoPorInsercao(vetorEmbaralhado);
+//		ordenaMergeSort(vetorEmbaralhado);
+        quickSortRec(vetorEmbaralhado, 0, vetorEmbaralhado.length-1);
+       
+        imprimirVect(vetorEmbaralhado);
+        fim=System.nanoTime ();
+        tempo=fim-inicio;
+        System.out.println("a tarefa demorou "+tempo+" nanosegundos\n");
+        
+	}
+
+}
